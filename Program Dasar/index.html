@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Input Master & Stock Data Barang</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Font Open Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+  </head>
+  <body>
+    <div class="form-container">
+      <!-- Judul -->
+      <h1>Form Input Master & Stock Data Barang</h1>
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <!-- Kode Produk -->
+      <label for="kode-produk">Kode Produk</label>
+      <input type="text" id="kode-produk" readonly id="kode=produk" style="margin-left: 20px;" />
+
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <!-- Nama Produk -->
+      <label for="makanan-produk">Makanan</label>
+      <input type="text" id="makanan-produk" style="margin-left: 47px;"/>
+
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <!-- Nama Produk -->
+      <label for="minuman-produk">Minuman</label>
+      <input type="text" id="minuman-produk" style="margin-left: 44px;"/>
+      
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <!-- Harga Produk -->
+      <label for="harga-produk">Harga Produk</label>
+      <input type="number" id="harga-produk" style="margin-left: 12px;"/>
+
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <!-- Satuan -->
+      <label for="satuan-produk">Satuan</label>
+      <select name="" id="satuan-produk" style="margin-left: 60px;">
+        <option value="Gelas">Gelas</option>
+        <option value="Kotak">Kotak</option>
+        <option value="Pcs">Pcs</option>
+      </select>
+
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <!-- Kategori -->
+      <label for="kategori-produk">Kategori</label>
+      <select name="" id="kategori-produk" style="margin-left: 50px;">
+        <option value="Makanan">Makanan</option>
+        <option value="Minuman">Minuman</option>
+        <option value="Snack">Snack</option>
+      </select>
+
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <!-- URL Gambar -->
+      <label for="url-gambar">URL Gambar</label>
+      <input type="text" id="url-gambar" style="margin-left: 20px "/>
+
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <!-- Stok Awal -->
+      <label for="stok-awal">Stok Awal</label>
+      <input type="number" id="stok-awal" style="margin-left: 40px;"/>
+
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <!-- Simpan -->
+      <button onclick="menyimpanProduk()">Simpan</button>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <!-- Tabel Produk -->
+    <table id="tabel-produk">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Kode Produk</th>
+          <th>Makanan</th>
+          <th>Minuman</th>
+          <th>Harga Produk</th>
+          <th>Satuan Produk</th>
+          <th>Kategori Produk</th>
+          <th>URL Gambar</th>
+          <th>Stok Awal</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="t-body">
+        <tr>
+          <!-- <td>1</td>
+            <td>MD-01</td>
+            <td>Indomie</td>
+            <td>35.000 Rp</td>
+            <td>Kotak</td>
+            <td>Makanan</td>
+            <td><img src="css image/Screenshot 2024-11-19 105620.png" alt="Indomie"></td>
+            <td>100</td>
+            <td>Edit | Delete</td> -->
+        </tr>
+      </tbody>
+    </table>
+
+    <script>
+      //Mock Database
+      var semuaProduk = [];
+
+      // Mode edit, bisa diswitch ke true
+      var modeEdit = false;
+
+      // Index dari produk yang kita edit
+      var indexProduk = null;
+
+      // Kode Produk
+      var kodeIncrement = 1;
+
+      // Function untuk menyimpan Produk
+      function menyimpanProduk() {
+        var kodeProduk = document.getElementById("kode-produk").value;
+        var makananProduk = document.getElementById("makanan-produk").value;
+        var minumanProduk = document.getElementById("minuman-produk").value;
+        var hargaProduk = document.getElementById("harga-produk").value;
+        var satuanProduk = document.getElementById("satuan-produk").value;
+        var kategoriProduk = document.getElementById("kategori-produk").value;
+        var urlGambar = document.getElementById("url-gambar").value;
+        var stokAwal = document.getElementById("stok-awal").value;
+
+        if (modeEdit) {
+          // Ini untuk update data
+          semuaProduk[indexProduk] = {
+            kodeProduk,
+            makananProduk,
+            minumanProduk,
+            hargaProduk,
+            satuanProduk,
+            kategoriProduk,
+            urlGambar,
+            stokAwal,
+          };
+
+          modeEdit = false;
+
+          indexProduk = null;
+        } else {
+          // Ini untuk menyimpan data baru
+          semuaProduk.push({
+            kodeProduk,
+            makananProduk,
+            minumanProduk,
+            hargaProduk,
+            satuanProduk,
+            kategoriProduk,
+            urlGambar,
+            stokAwal,
+          });
+
+          kodeIncrement++;
+        }
+
+        document.getElementById("kode-produk").value = "MD-00" + kodeIncrement;
+
+        menampilkanTable();
+
+        document.getElementById("kode-produk").value = "MD-00" + kodeIncrement;
+        document.getElementById("makanan-produk").value = "";
+        document.getElementById("minuman-produk").value = "";
+        document.getElementById("harga-produk").value = "";
+        document.getElementById("satuan-produk").value = "";
+        document.getElementById("kategori-produk").value = "";
+        document.getElementById("url-gambar").value = "";
+        document.getElementById("stok-awal").value = "";
+      }
+
+      // Function untuk menampilkan table produk
+      function menampilkanTable() {
+        var tBody = document.getElementById("t-body");
+
+        tBody.innerHTML = "";
+
+        semuaProduk.forEach((produk, index) => {
+
+          var baris = tBody.insertRow();
+
+        var warna = "";
+        if (produk.stokAwal < 5 ) {
+          warna = "red";
+        } else {
+          warna = "white";
+        };
+
+          baris.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${produk.kodeProduk}</td>
+                    <td>${produk.makananProduk}</td>
+                    <td>${produk.minumanProduk}</td>
+                    <td>${produk.hargaProduk}</td>
+                    <td>${produk.satuanProduk}</td>
+                    <td>${produk.kategoriProduk}</td>
+                    <td><img src="${produk.urlGambar}"</td style ="width : 60px;">
+                    <td style ="background-color : ${warna};">${produk.stokAwal}</td>
+                    <td><div style="display: flex"><button onclick="edit(${index})">edit</button>  |  <button onclick="destroy(${index})">delete</button></div></td>
+                    `;
+        });
+      }
+
+      // Function untuk mengedit produk
+      function edit(index) {
+        var produkEdit = semuaProduk[index];
+
+        // sertakan input data lainnya....
+        document.getElementById("kode-produk").value = produkEdit.kodeProduk;
+        document.getElementById("makanan-produk").value = produkEdit.namaProduk;
+        document.getElementById("minuman-produk").value = produkEdit.namaProduk;
+        document.getElementById("harga-produk").value = produkEdit.hargaProduk;
+        document.getElementById("satuan-produk").value = produkEdit.satuanProduk;
+        document.getElementById("kategori-produk").value = produkEdit.kategoriProduk;
+        document.getElementById("url-gambar").value = produkEdit.urlGambar;
+        document.getElementById("stok-awal").value = produkEdit.stokAwal;
+
+        // Switch ke mode edit
+        modeEdit = true;
+
+        // Untuk menyimpan index produk globally
+        indexProduk = index;
+      }
+
+      // Menghapus berdasarkan Index
+      function destroy(index) {
+        semuaProduk.splice(index, 1);
+
+        // Merefresh ulang table
+        menampilkanTable();
+      }
+
+      document.getElementById("kode-produk").value = "MD-00" + kodeIncrement;
+    </script>
+  </body>
+</html>
